@@ -105,6 +105,12 @@ class AlbumRepository
 
     # Returns an array of Album objects.
   end
+
+  def find
+    # Executes the SQL query:
+    # SELECT id, title, release_year FROM albums WHERE id = $1;
+    # Returns an Album object.
+  end
 end
 ```
 
@@ -133,6 +139,22 @@ albums[1].id = "2"
 albums[1].title = "album_2"
 albums[1].release_year = "2021"
 albums[1].artist_id = "2"
+
+# 2 Get an album by id
+
+repo = AlbumRepository.new
+
+album_1 = repo.find(1)
+album_1.id # => "1"
+album_1.title # => "album_1"
+album_1.release_year # => "2023"
+album_1.artist_id # => "1"
+
+album_1 = repo.find(2)
+album_1.id # => "1"
+album_1.title # => "album_2"
+album_1.release_year # => "2021"
+album_1.artist_id # => "2"
 ```
 
 Encode this example as a test.

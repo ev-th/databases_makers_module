@@ -12,13 +12,15 @@ RSpec.describe ArtistRepository do
     reset_artists_table
   end
   
-  it "returns the list of artists" do
-    repo = ArtistRepository.new
-    artists = repo.all
-
-    expect(artists.length).to eq 2
-    expect(artists[0].id).to eq "1"
-    expect(artists[0].name).to eq "Pixies"
-    expect(artists[0].genre).to eq "Rock"
+  describe "#all" do
+    it "returns the list of artists" do
+      repo = ArtistRepository.new
+      artists = repo.all
+      
+      expect(artists.length).to eq 2
+      expect(artists[0].id).to eq "1"
+      expect(artists[0].name).to eq "Pixies"
+      expect(artists[0].genre).to eq "Rock"
+    end
   end
 end

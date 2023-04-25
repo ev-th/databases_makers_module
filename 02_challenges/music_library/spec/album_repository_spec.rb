@@ -28,4 +28,26 @@ describe AlbumRepository do
     expect(albums[1].release_year).to eq "2021"
     expect(albums[1].artist_id).to eq "2"
   end
+
+  describe "#find" do
+    it "returns album where id=1 when passed 1" do
+      repo = AlbumRepository.new
+      album = repo.find(1)
+
+      expect(album.id).to eq "1"
+      expect(album.title).to eq "album_1"
+      expect(album.release_year).to eq "2023"
+      expect(album.artist_id).to eq "1"
+    end
+
+    it "returns album where id=2 when passed 2" do
+      repo = AlbumRepository.new
+      album = repo.find(2)
+
+      expect(album.id).to eq "2"
+      expect(album.title).to eq "album_2"
+      expect(album.release_year).to eq "2021"
+      expect(album.artist_id).to eq "2"
+    end
+  end
 end
