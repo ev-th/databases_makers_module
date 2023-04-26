@@ -50,4 +50,23 @@ describe AlbumRepository do
       expect(album.artist_id).to eq "2"
     end
   end
+
+  describe "#create" do
+    it "adds an album record to the database" do
+      repo = AlbumRepository.new
+
+      album = Album.new
+      album.title = 'Trompe le Monde'
+      album.release_year = 1991
+      album.artist_id = 5
+
+      repo.create(album)
+
+      all_albums = repo.all
+      new_album = all_albums.last
+      expect(new_album.title).to eq "Trompe le Monde"
+      expect(new_album.release_year).to eq "1991"
+      expect(new_album.artist_id).to eq "5"
+    end
+  end
 end
