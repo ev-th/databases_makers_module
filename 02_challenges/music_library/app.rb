@@ -1,7 +1,15 @@
 require_relative "lib/database_connection"
 require_relative "lib/artist_repository"
+require_relative "lib/album_repository"
+require_relative "lib/application"
 
-DatabaseConnection.connect("music_library")
 
-artist_repository = ArtistRepository.new
-artist_repository.all.each{ |artist| p artist }
+if __FILE__ == $0
+  app = Application.new(
+    "music_library",
+    Kernel,
+    AlbumRepository.new,
+    ArtistRepository.new
+  )
+  app.run
+end
