@@ -1,3 +1,3 @@
 class Post
-  attr_accessor :id, :title, :content
+  attr_accessor :id, :title, :content, :comments
 end
