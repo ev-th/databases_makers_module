@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS comments, posts;
+
 -- Create the table without the foreign key first.
 CREATE TABLE posts (
   id SERIAL PRIMARY KEY,
@@ -6,7 +8,7 @@ CREATE TABLE posts (
 );
 
 -- Then the table with the foreign key first.
-CREATE TABLE albums (
+CREATE TABLE comments (
   id SERIAL PRIMARY KEY,
   content text,
   author text,
