@@ -91,8 +91,7 @@ Columns: student_id, tag_id
 ## 4. Write the SQL.
 
 ```sql
--- EXAMPLE
--- file: posts_tags.sql
+-- file: students_tags.sql
 
 -- Replace the table name, columm names and types.
 
