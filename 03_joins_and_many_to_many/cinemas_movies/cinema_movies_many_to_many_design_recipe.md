@@ -1,4 +1,4 @@
-# Two Tables (Many-to-Many) Design Recipe Template
+# cinema_movies (Many-to-Many) Design Recipe Template
 
 _Copy this recipe template to design and create two related database tables having a Many-to-Many relationship._
 
@@ -7,27 +7,28 @@ _Copy this recipe template to design and create two related database tables havi
 ```
 # EXAMPLE USER STORIES:
 
-As a blogger,
-So I can organise my blog posts,
-I want to keep a list of posts with their title and content.
+As a cinema company manager,
+So I can keep track of movies being shown,
+I want to keep a list of movies with their title and release date.
 
-As a blogger,
-So I can organise my blog posts,
-I want to keep a list of tags with their name (e.g 'coding' or 'travel').
+As a cinema company manager,
+So I can keep track of movies being shown,
+I want to keep a list of my cinemas with their city name (e.g 'London' or 'Manchester').
 
-As a blogger,
-So I can organise my blog posts,
-I want to be able to assign one tag to different posts.
+As a cinema company manager,
+So I can keep track of movies being shown,
+I want to be able to list which cinemas are showing a specific movie.
 
-As a blogger,
-So I can organise my blog posts,
-I want to be able to tag one post with one or different many tags.
+As a cinema company manager,
+So I can keep track of movies being shown,
+I want to be able to list which movies are being shown a specific cinema.
+
 ```
 
 ```
 Nouns:
 
-posts, title, tags, name
+movies, movie title, movie release date, cinemas, cinema city name
 ```
 
 ## 2. Infer the Table Name and Columns
@@ -36,16 +37,16 @@ Put the different nouns in this table. Replace the example with your own nouns.
 
 | Record                | Properties          |
 | --------------------- | ------------------  |
-| posts                 | title, content
-| tags                  | name
+| cinemas               | city
+| movies                | title, release_date
 
-1. Name of the first table (always plural): `posts` 
+1. Name of the first table (always plural): `cinemas` 
 
-    Column names: `title`, `content`
+    Column names: `city`
 
-2. Name of the second table (always plural): `tags` 
+2. Name of the second table (always plural): `movies` 
 
-    Column names: `name`
+    Column names: `title`, `release_date`
 
 ## 3. Decide the column types.
 
@@ -56,16 +57,14 @@ Most of the time, you'll need either `text`, `int`, `bigint`, `numeric`, or `boo
 Remember to **always** have the primary key `id` as a first column. Its type will always be `SERIAL`.
 
 ```
-# EXAMPLE:
+Table: cinemas
+id: SERIAL
+city: text
 
-Table: posts
+Table: movies
 id: SERIAL
 title: text
-content: text
-
-Table: tags
-id: SERIAL
-name: text
+release_date: date
 ```
 
 ## 4. Design the Many-to-Many relationship
@@ -78,8 +77,8 @@ Make sure you can answer YES to these two questions:
 ```
 # EXAMPLE
 
-1. Can one tag have many posts? YES
-2. Can one post have many tags? YES
+1. Can one cinema have many movies? YES
+2. Can one movie have many cinemas? YES
 ```
 
 _If you would answer "No" to one of these questions, you'll probably have to implement a One-to-Many relationship, which is simpler. Use the relevant design recipe in that case._
@@ -88,52 +87,51 @@ _If you would answer "No" to one of these questions, you'll probably have to imp
 
 The join table usually contains two columns, which are two foreign keys, each one linking to a record in the two other tables.
 
-The naming convention is `table1_table2`.
+The naming convention is `cinemas_movies`.
 
 ```
 # EXAMPLE
 
-Join table for tables: posts and tags
-Join table name: posts_tags
-Columns: post_id, tag_id
+Join table for tables: cinemas and movies
+Join table name: cinemas_movies
+Columns: cinema_id, movie_id
 ```
 
 ## 4. Write the SQL.
 
 ```sql
 -- EXAMPLE
--- file: posts_tags.sql
+-- file: cinemas_movies.sql
 
 -- Replace the table name, columm names and types.
 
 -- Create the first table.
-CREATE TABLE posts (
+CREATE TABLE cinemas (
   id SERIAL PRIMARY KEY,
-  title text,
-  content text
+  city text
 );
 
 -- Create the second table.
-CREATE TABLE tags (
+CREATE TABLE movies (
   id SERIAL PRIMARY KEY,
-  name text
+  title text,
+  release_date date
 );
 
 -- Create the join table.
-CREATE TABLE posts_tags (
-  post_id int,
-  tag_id int,
-  constraint fk_post foreign key(post_id) references posts(id) on delete cascade,
-  constraint fk_tag foreign key(tag_id) references tags(id) on delete cascade,
-  PRIMARY KEY (post_id, tag_id)
+CREATE TABLE cinemas_movies (
+  cinema_id int,
+  movie_id int,
+  constraint fk_cinema foreign key(cinema_id) references cinemas(id) on delete cascade,
+  constraint fk_movie foreign key(movie_id) references movies(id) on delete cascade,
+  PRIMARY KEY(cinema_id, movie_id)
 );
-
 ```
 
 ## 5. Create the tables.
 
 ```bash
-psql -h 127.0.0.1 database_name < posts_tags.sql
+psql -h 127.0.0.1 cinemas_movies < cinemas_movies.sql
 ```
 
 <!-- BEGIN GENERATED SECTION DO NOT EDIT -->
